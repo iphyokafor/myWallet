@@ -29,8 +29,8 @@ contract MyWallet {
 
     //Receive ether
     receive() external payable {
-        balanceReceived[msg.sender] += msg.value;
-        emit Deposit(msg.sender, msg.value);
+        balanceReceived[owner] += msg.value;
+        emit Deposit(owner, msg.value);
     }
 
     //Send money
@@ -41,24 +41,21 @@ contract MyWallet {
         hasEnough(owner, _amount)
     {
         balanceReceived[_receiver] += _amount;
-        balanceReceived[msg.sender] -= _amount;
+        balanceReceived[owner] -= _amount;
         emit Send(_receiver, _amount);
     }
 
     // Withdraw money
-    function withdrawMoney(address payable _to, uint256 _amount)
-        external
-        onlyOwner
-        hasEnough(owner, _amount)
-    {
+    function withdrawMoney(uint256 _amount) external hasEnough(owner, _amount) {
         balanceReceived[owner] -= _amount;
+        address payable _to = payable(owner);
         (bool sent, ) = _to.call{value: _amount}("");
         require(sent, "Ether not sent");
         emit Withdraw(owner, _amount);
     }
 
     // Get contract balance address
-    function getBalance() public view returns (uint256) {
+    function getContractBalance() external view returns (uint256) {
         return address(this).balance;
     }
 
