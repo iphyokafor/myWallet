@@ -47,13 +47,14 @@ contract MyWallet {
 
     // Withdraw money
     function withdrawMoney(address payable _to, uint256 _amount)
-        public
+        external
         onlyOwner
         hasEnough(owner, _amount)
     {
-        balanceReceived[msg.sender] -= _amount;
-        _to.transfer(_amount);
-        emit Withdraw(msg.sender, _amount);
+        balanceReceived[owner] -= _amount;
+        (bool sent, ) = _to.call{value: _amount}("");
+        require(sent, "Ether not sent");
+        emit Withdraw(owner, _amount);
     }
 
     // Get contract balance address
