@@ -3,9 +3,9 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract MyWallet {
     //Events
-    event Deposit(address _addr, uint256 amount);
-    event Send(address _addr, uint256 amount);
-    event Withdraw(address _addr, uint256 amount);
+    event Deposit(address _addr, uint amount);
+    event Send(address _addr, uint amount);
+    event Withdraw(address _addr, uint amount);
 
     address public owner;
 
@@ -13,10 +13,10 @@ contract MyWallet {
         owner = msg.sender;
     }
 
-    mapping(address => uint256) public balanceReceived;
+    mapping(address => uint) public balanceReceived;
 
     // Modifiers
-    modifier hasEnough(address _addr, uint256 _amount) {
+    modifier hasEnough(address _addr, uint _amount) {
         require(balanceReceived[_addr] >= _amount, "Insufficient funds");
         _;
     }
@@ -34,7 +34,7 @@ contract MyWallet {
     }
 
     //Send money
-    function sendMoney(address _receiver, uint256 _amount)
+    function sendMoney(address _receiver, uint _amount)
         external
         payable
         onlyOwner
@@ -46,7 +46,7 @@ contract MyWallet {
     }
 
     // Withdraw money
-    function withdrawMoney(uint256 _amount) external hasEnough(owner, _amount) {
+    function withdrawMoney(uint _amount) external hasEnough(owner, _amount) {
         balanceReceived[owner] -= _amount;
         address payable _to = payable(owner);
         (bool sent, ) = _to.call{value: _amount}("");
@@ -55,12 +55,12 @@ contract MyWallet {
     }
 
     // Get contract balance address
-    function getContractBalance() external view returns (uint256) {
+    function getContractBalance() external view returns (uint) {
         return address(this).balance;
     }
 
     // Get balance with specific address
-    function getBalance(address _addr) external view returns (uint256) {
+    function getBalance(address _addr) external view returns (uint) {
         return balanceReceived[_addr];
     }
 }
