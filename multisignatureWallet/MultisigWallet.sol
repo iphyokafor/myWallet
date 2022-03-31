@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "./Modifiers.sol";
 
-contract MultisigWallet is CustomerModifiers {
+contract MultisigWallet is CustomModifiers {
     constructor(address[] memory _addresses, uint256 _required) {
         require(_addresses.length >= 3, "Number of owners is not complete");
         require(

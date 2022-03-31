@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "./Variables.sol";
 
-contract CustomerModifiers is Variables {
+contract CustomModifiers is Variables {
     modifier OnlyOwner() {
         require(
             isOwner[msg.sender],
