@@ -8,7 +8,7 @@ contract SIOToken is IERC20 {
     string public name = "SandieIphieOkafor";
     string public symbol = "SIO";
     uint256 public decimals = 18;
-    uint256 public override totalSupply = 500000000000;
+    uint256 public override totalSupply = 500000000000 * (10**decimals);
 
     constructor() {
         balanceOf[msg.sender] = totalSupply;
@@ -63,5 +63,14 @@ contract SIOToken is IERC20 {
         balanceOf[_to] += _amount;
         emit Transfer(_from, _to, _amount);
         return true;
+    }
+
+    receive() external payable {
+        balanceOf[msg.sender] += msg.value;
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    function getContractBalance() external view returns (uint256) {
+        return address(this).balance;
     }
 }

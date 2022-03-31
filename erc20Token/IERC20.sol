@@ -86,4 +86,6 @@ interface IERC20 {
         address indexed spender,
         uint256 value
     );
+
+    event Deposit(address _addr, uint256 amount);
 }
