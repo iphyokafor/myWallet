@@ -23,7 +23,7 @@ contract MultisigWallet is CustomerModifiers {
         emit Deposit(msg.sender, msg.value, address(this).balance);
     }
 
-    function submit(address _to, uint256 _amount) external payable OnlyOwner {
+    function submitTransaction(address _to, uint256 _amount) external payable OnlyOwner {
         require(address(this).balance >= _amount, "Oops! Insufficient funds");
         transactionCount++;
         transactions[transactionCount] = Transaction(_to, _amount, 0, false);
@@ -31,7 +31,7 @@ contract MultisigWallet is CustomerModifiers {
         emit Submit(msg.sender, transactionCount);
     }
 
-    function approve(uint256 transactionId)
+    function approveTransaction(uint256 transactionId)
         external
         OnlyOwner
         transactionExists(transactionId)
@@ -44,7 +44,7 @@ contract MultisigWallet is CustomerModifiers {
         emit Approval(msg.sender, transactionId);
     }
 
-    function execute(uint256 transactionId)
+    function executeTransaction(uint256 transactionId)
         external
         OnlyOwner
         transactionExists(transactionId)
