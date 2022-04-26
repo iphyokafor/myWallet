@@ -17,9 +17,9 @@ const generateWhitelistRoot = () => {
     whitelistRootHash
   );
 
-  console.log("VERIFY PROOF", verifyProof);
+  // console.log("VERIFY PROOF", verifyProof);
+  // console.log("whitelistMerkleTree", whitelistMerkleTree.toString());
   console.log("whitelistRootHash", whitelistRootHash);
-  console.log("whitelistMerkleTree", whitelistMerkleTree.toString());
 
   return whitelistRootHash;
 };
